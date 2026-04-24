@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세무법인 ACRO — 미국 관세환급 대행 서비스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ── 리셋 & 기본 ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f3f4f6;
+    color: #1e2533;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── CSS 변수 ── */
+  :root {
+    --navy:   #1a2340;
+    --navy2:  #0f1728;
+    --blue:   #2563eb;
+    --blue2:  #1d4fd8;
+    --sky:    #3b82f6;
+    --bg:     #f3f4f6;
+    --bg2:    #eaecf0;
+    --white:  #ffffff;
+    --ink1:   #1e2533;
+    --ink2:   #374151;
+    --ink3:   #6b7280;
+    --ink4:   #9ca3af;
+    --bd:     #e5e7eb;
+    --bd2:    #d1d5db;
+    --green:  #16a34a;
+    --red:    #dc2626;
+    --amber:  #d97706;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow2: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* ── 레이아웃 ── */
+  .wrap    { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .wrap-sm { max-width: 720px;  margin: 0 auto; padding: 0 24px; }
+  .sec     { padding: 80px 0; }
+  .sec-sm  { padding: 48px 0; }
+
+  /* ── 타이포그래피 ── */
+  .kicker { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); background: rgba(37,99,235,0.1); padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+  .kicker-w { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.12); }
+  .h-hero { font-size: clamp(30px, 5vw, 52px); font-weight: 900; line-height: 1.18; letter-spacing: -0.03em; }
+  .h-sec  { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .h-card { font-size: 18px; font-weight: 700; }
+  .lead   { font-size: 17px; color: var(--ink3); line-height: 1.8; }
+  .body   { font-size: 15px; color: var(--ink2); line-height: 1.75; }
+  .small  { font-size: 13px; color: var(--ink3); line-height: 1.7; }
+
+  /* ── 버튼 ── */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; font-weight: 700; cursor: pointer; border: none; outline: none; transition: all 0.18s; }
+  .btn-pri  { background: var(--blue); color: #fff; border-radius: 10px; }
+  .btn-pri:hover  { background: var(--blue2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.35); }
+  .btn-wht  { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.35); border-radius: 10px; }
+  .btn-wht:hover  { background: rgba(255,255,255,0.25); }
+  .btn-out  { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 10px; }
+  .btn-out:hover  { background: rgba(37,99,235,0.06); }
+  .btn-xl   { font-size: 16px; padding: 15px 32px; }
+  .btn-lg   { font-size: 15px; padding: 13px 28px; }
+  .btn-md   { font-size: 14px; padding: 10px 20px; }
+  .btn-sm   { font-size: 13px; padding: 8px 16px; }
+  .btn-full { width: 100%; padding: 15px; font-size: 16px; border-radius: 12px; }
+
+  /* ── 헤더 ── */
+  #header {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(26, 35, 64, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    height: 58px;
+    display: flex; align-items: center;
+  }
+  #header .inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-name { font-weight: 900; font-size: 16px; color: #fff; letter-spacing: 0.04em; }
+  .logo-sep  { width: 1px; height: 14px; background: rgba(255,255,255,0.2); }
+  .logo-sub  { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  /* ── 히어로 ── */
+  #hero {
+    background: linear-gradient(135deg, var(--navy2) 0%, #162040 50%, #1a2a50 100%);
+    padding: 96px 0 80px;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, rgba(37,99,235,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(99,102,241,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(220,38,38,0.15); border: 1px solid rgba(220,38,38,0.3);
+    color: #fca5a5; font-size: 12px; font-weight: 700;
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #f87171; animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero-title { color: #fff; margin-bottom: 20px; }
+  .hero-title em { color: #60a5fa; font-style: normal; }
+  .hero-lead { color: rgba(255,255,255,0.65); margin-bottom: 40px; max-width: 540px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ── 통계 배너 ── */
+  #stats {
+    background: var(--navy);
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .stats-grid { display: flex; justify-content: center; gap: 0; }
+  .stat-item { flex: 1; max-width: 240px; text-align: center; padding: 0 24px; position: relative; }
+  .stat-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 15%; height: 70%; width: 1px; background: rgba(255,255,255,0.1); }
+  .stat-num { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; }
+  .stat-num span { font-size: 16px; font-weight: 700; color: #60a5fa; }
+  .stat-lbl { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 5px; }
+
+  /* ── 자가진단 섹션 ── */
+  #diag { background: var(--bg); }
+  .diag-box {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .diag-progress {
+    height: 4px;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+  .diag-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), #60a5fa);
+    transition: width 0.4s ease;
+  }
+  .diag-body { padding: 40px 48px; }
+  .diag-step-label { font-size: 12px; font-weight: 700; color: var(--blue); letter-spacing: 0.1em; margin-bottom: 10px; }
+  .diag-question { font-size: 22px; font-weight: 700; color: var(--ink1); margin-bottom: 8px; line-height: 1.4; }
+  .diag-hint { font-size: 13px; color: var(--ink3); margin-bottom: 32px; line-height: 1.6; }
+  .diag-options { display: flex; flex-direction: column; gap: 12px; }
+  .diag-option {
+    display: flex; align-items: center; gap: 16px;
+    border: 1.5px solid var(--bd2);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    background: transparent;
+    font-family: inherit;
+    width: 100%;
+  }
+  .diag-option:hover { border-color: var(--blue); background: rgba(37,99,235,0.04); transform: translateX(4px); }
+  .diag-option .icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: var(--bg); }
+  .diag-option .text strong { display: block; font-size: 15px; font-weight: 700; color: var(--ink1); margin-bottom: 2px; }
+  .diag-option .text span { font-size: 12px; color: var(--ink3); }
+
+  /* 결과 화면 */
+  .result-screen { text-align: center; padding: 16px 0; }
+  .result-icon { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 32px; }
+  .result-icon.ok    { background: rgba(22,163,74,0.12);  }
+  .result-icon.no    { background: rgba(220,38,38,0.1);   }
+  .result-icon.upsell{ background: rgba(217,119,6,0.12);  }
+  .result-title  { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .result-desc   { font-size: 15px; color: var(--ink2); line-height: 1.8; margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .result-restart { font-size: 13px; color: var(--ink3); background: none; border: none; cursor: pointer; font-family: inherit; text-decoration: underline; margin-top: 12px; }
+
+  /* ── 폼 공통 ── */
+  .form-wrap {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 20px;
+    text-align: left;
+  }
+  .form-title { font-size: 16px; font-weight: 700; color: var(--ink1); margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--bd); }
+  .f-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .f-group { display: flex; flex-direction: column; gap: 5px; }
+  .f-label { font-size: 13px; font-weight: 500; color: var(--ink2); }
+  .f-label .req { color: var(--red); }
+  .f-input, .f-select, .f-textarea {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink1);
+    background: var(--white);
+    border: 1.5px solid var(--bd2);
+    border-radius: 8px;
+    padding: 11px 14px;
+    transition: border-color 0.18s;
+    width: 100%;
+    outline: none;
+  }
+  .f-input:focus, .f-select:focus, .f-textarea:focus { border-color: var(--blue); }
+  .f-textarea { resize: vertical; min-height: 90px; }
+  .f-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  .f-consent { display: flex; gap: 10px; align-items: flex-start; background: #f8f9fa; border-radius: 10px; padding: 14px 16px; border: 1px solid var(--bd); cursor: pointer; }
+  .f-consent input { margin-top: 2px; accent-color: var(--blue); flex-shrink: 0; }
+  .f-consent span { font-size: 13px; color: var(--ink3); line-height: 1.7; }
+
+  .submit-btn-wrap { margin-top: 20px; }
+
+  /* 제출 완료 */
+  .success-box { text-align: center; padding: 20px 0; }
+  .success-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(22,163,74,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 26px; color: var(--green); }
+  .success-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .success-desc  { font-size: 13px; color: var(--ink3); line-height: 1.7; }
+
+  /* ── FAQ ── */
+  #faq { background: var(--white); }
+  .faq-item { border-bottom: 1px solid var(--bd); }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 15px; font-weight: 700; color: var(--ink1);
+    padding: 20px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  }
+  .faq-icon { font-size: 20px; color: var(--blue); flex-shrink: 0; transition: transform 0.25s; font-weight: 400; }
+  .faq-a { font-size: 14px; color: var(--ink2); line-height: 1.8; padding-bottom: 20px; display: none; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── 푸터 ── */
+  #footer { background: var(--navy2); padding: 32px 0; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-logo { font-weight: 900; font-size: 15px; color: #fff; }
+  .footer-sub  { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+  .footer-note { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.8; text-align: right; }
+
+  /* ── 반응형 ── */
+  @media (max-width: 640px) {
+    .diag-body { padding: 28px 20px; }
+    .f-grid-2 { grid-template-columns: 1fr; }
+    .stats-grid { flex-wrap: wrap; }
+    .stat-item { min-width: 120px; }
+    .stat-item:not(:last-child)::after { display: none; }
+    .hero-btns .btn-xl { width: 100%; }
+    .form-wrap { padding: 20px; }
+  }
+
+  /* ── 페이드인 ── */
+  .fadein { opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; }
+  .fadein.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header id="header">
+  <div class="wrap inner">
+    <div class="logo">
+      <span class="logo-name">세무법인 ACRO</span>
+      <span class="logo-sep"></span>
+      <span class="logo-sub">미국 관세환급 대행</span>
+    </div>
+    <button class="btn btn-pri btn-sm" onclick="scrollToDiag()">환급 가능 여부 확인</button>
+  </div>
+</header>
+
+<!-- 히어로 -->
+<section id="hero">
+  <div class="wrap" style="position:relative;z-index:1">
+    <h1 class="h-hero hero-title">
+      트럼프 상호관세,<br>
+      <em>납부한 관세를 돌려받을 수 있습니다</em>
+    </h1>
+    <p class="lead hero-lead">
+      미국 연방대법원의 IEEPA 위헌 판결로 인해,<br>
+      미국으로 수출 시 납부한 관세의 환급이 가능해졌습니다.<br>
+      <strong style="color:rgba(255,255,255,0.8)">신청 기한이 정해져 있습니다. 지금 바로 확인하세요.</strong>
+    </p>
+    <div class="hero-btns">
+      <button class="btn btn-pri btn-xl" onclick="scrollToDiag()">무료 환급 가능 여부 진단 →</button>
+      <button class="btn btn-wht btn-xl" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">자주 묻는 질문</button>
+    </div>
+  </div>
+</section>
+
+<!-- 통계 배너 -->
+<section id="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">1,750<span>억 달러</span></div>
+        <div class="stat-lbl">환급 대상 추정 관세 규모</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">180<span>일</span></div>
+        <div class="stat-lbl">관세 확정 후 신청 가능 기간</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">60<span>~</span>90<span>일</span></div>
+        <div class="stat-lbl">환급금 수령까지 예상 기간</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 자가진단 섹션 -->
+<section id="diag" class="sec">
+  <div class="wrap-sm">
+    <div style="text-align:center;margin-bottom:40px" class="fadein">
+      <span class="kicker">환급 자가진단</span>
+      <h2 class="h-sec" style="margin-bottom:12px">내가 환급 대상인지 3분 안에 확인하세요</h2>
+      <p class="lead">복잡한 용어 없이 쉽게 확인할 수 있습니다</p>
+    </div>
+    <div class="diag-box fadein" id="diagBox">
+      <div class="diag-progress"><div class="diag-progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div class="diag-body" id="diagContent">
+        <!-- JS로 렌더링 -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec">
+  <div class="wrap-sm">
+    <div style="text-align:center;margin-bottom:40px" class="fadein">
+      <span class="kicker">FAQ</span>
+      <h2 class="h-sec">자주 묻는 질문</h2>
+    </div>
+    <div id="faqList" class="fadein">
+      <!-- JS로 렌더링 -->
+    </div>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">세무법인 ACRO</div>
+        <div class="footer-sub">Acro Tax Corporation · 강남구 소재</div>
+      </div>
+      <div class="footer-note">
+        본 페이지는 세무법인 ACRO의 IEEPA 관세환급 대행 서비스 안내 페이지입니다.<br>
+        관세환급 관련 문의는 담당자를 통해 안내드립니다.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════ 설정값 ══════════════════ */
+// 폼 제출 후 Google Sheets로 데이터를 보내는 GAS Webhook URL을 아래에 입력하세요
+const GAS_URL = 'YOUR_GAS_WEBHOOK_URL_HERE';
+
+/* ══════════════════ 진단 데이터 ══════════════════ */
+const STEPS = [
+  {
+    id: 'q1',
+    step: '질문 1 / 3',
+    question: '미국에 수출할 때 관세를 누가 부담했나요?',
+    hint: '수출 계약서나 인보이스에 적힌 거래 조건을 확인해 보세요. DDP(Delivered Duty Paid)라고 표기된 경우 수출자 부담입니다.',
+    options: [
+      { icon: '🏢', label: '우리 회사(수출자)가 직접 부담', sub: '계약서에 DDP 조건으로 명시된 경우', next: 'q2' },
+      { icon: '🇺🇸', label: '미국 바이어(수입자)가 부담', sub: 'FOB, CIF, EXW 등 조건의 경우', next: 'no_ddp' },
+    ]
+  },
+  {
+    id: 'q2',
+    step: '질문 2 / 3',
+    question: '미국 세관 수입신고서에 "수입자(Importer)"로 등재된 주체가 누구인가요?',
+    hint: '미국 세관에 제출된 Entry Summary(수입신고서)를 확인하거나, 미국 거래 담당자 또는 포워더에게 확인해 보세요.',
+    options: [
+      { icon: '✅', label: '우리 회사(한국 수출자)가 수입자로 등재', sub: '당사 IOR(Importer of Record) 지위 보유', next: 'q3' },
+      { icon: '🚢', label: '물류사(포워더) 이름으로 되어있음', sub: '아마존 FBA 등 포워더가 수입자인 경우', next: 'no_ior' },
+      { icon: '❓', label: '잘 모르겠어요', sub: '확인이 필요한 경우', next: 'no_ior' },
+    ]
+  },
+  {
+    id: 'q3',
+    step: '질문 3 / 3',
+    question: '관세 분류 오류, 원산지 문제 같은 복잡한 법적 쟁점도 함께 다루고 싶으신가요?',
+    hint: '단순히 트럼프 상호관세(IEEPA 관세)만 환급받으면 되는 경우라면 첫 번째를 선택하세요.',
+    options: [
+      { icon: '💰', label: 'IEEPA 관세 환급만 원해요', sub: '가장 빠른 CAPE 시스템으로 대행 신청 가능', next: 'ok' },
+      { icon: '⚖️', label: '관세 분류, 원산지 분쟁 등 복잡한 문제도 있어요', sub: '대규모 환급이나 법적 권리 보전이 필요한 경우', next: 'upsell' },
+    ]
+  },
+];
+
+const RESULTS = {
+  ok: {
+    type: 'ok',
+    icon: '💚',
+    title: '환급 검토 대상입니다!',
+    desc: '세무법인 ACRO가 ACE 포털 신청을 대행해 드립니다.\n아래 정보를 남겨주시면 담당자가 확인 후 연락드립니다.',
+    formType: '환급대상',
+    showDetailForm: true,
+  },
+  no_ddp: {
+    type: 'no',
+    icon: '❌',
+    title: '아쉽게도 환급 대상이 아닙니다',
+    desc: 'DDP 조건이 아닌 경우(FOB, CIF 등), 관세는 미국 바이어가 부담한 것이므로 수출자에게 환급 청구권이 없습니다.\n\n세무 또는 무역 구조 관련 상담이 필요하시면 연락처를 남겨주세요.',
+    formType: '환급불가',
+    showDetailForm: false,
+  },
+  no_ior: {
+    type: 'no',
+    icon: '❌',
+    title: '환급 청구권 확인이 필요합니다',
+    desc: '물류사(포워더)가 수입자(IOR)로 등재된 경우, 환급 청구권이 포워더에게 있어 직접 청구가 어렵습니다.\n\n정확한 확인을 위해 담당자와 상담해 보세요.',
+    formType: '환급불가',
+    showDetailForm: false,
+  },
+  upsell: {
+    type: 'upsell',
+    icon: '⚖️',
+    title: '전문 법무 상담이 필요합니다',
+    desc: '품목 분류, 원산지, 과세가격 등 복잡한 쟁점은 CAPE 시스템으로 처리하기 어렵습니다.\n미국 통상법 전문 로펌 연계 상담을 안내해 드리겠습니다.',
+    formType: '전문상담필요',
+    showDetailForm: false,
+  },
+};
+
+/* ══════════════════ 진단 렌더링 ══════════════════ */
+let currentStep = 0;
+let resultKey = null;
+
+function getStepById(id) { return STEPS.find(s => s.id === id); }
+
+function renderStep(step) {
+  const idx = STEPS.indexOf(step);
+  const pct = ((idx) / STEPS.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  let html = `
+    <div class="diag-step-label">${step.step}</div>
+    <div class="diag-question">${step.question}</div>
+    <div class="diag-hint">${step.hint}</div>
+    <div class="diag-options">
+  `;
+  step.options.forEach(opt => {
+    html += `
+      <button class="diag-option" onclick="handleOption('${opt.next}')">
+        <div class="icon">${opt.icon}</div>
+        <div class="text">
+          <strong>${opt.label}</strong>
+          <span>${opt.sub}</span>
+        </div>
+      </button>
+    `;
+  });
+  html += '</div>';
+
+  const content = document.getElementById('diagContent');
+  content.style.opacity = '0';
+  content.style.transform = 'translateX(20px)';
+  setTimeout(() => {
+    content.innerHTML = html;
+    content.style.transition = 'opacity 0.3s, transform 0.3s';
+    content.style.opacity = '1';
+    content.style.transform = 'translateX(0)';
+  }, 150);
+}
+
+function handleOption(nextId) {
+  if (RESULTS[nextId]) {
+    renderResult(nextId);
+  } else {
+    const step = getStepById(nextId);
+    if (step) renderStep(step);
+  }
+}
+
+function renderResult(rKey) {
+  resultKey = rKey;
+  const r = RESULTS[rKey];
+  document.getElementById('progressBar').style.width = '100%';
+
+  const iconColor = { ok: '#16a34a', no: '#dc2626', upsell: '#d97706' }[r.type];
+  const titleColor = { ok: '#16a34a', no: '#dc2626', upsell: '#d97706' }[r.type];
+
+  const formHTML = r.showDetailForm ? renderDetailForm() : renderSimpleForm(r.formType);
+
+  const desc = r.desc.replace(/\n/g, '<br>');
+  let html = `
+    <div class="result-screen">
+      <div class="result-icon ${r.type}" style="color:${iconColor}">${r.icon}</div>
+      <div class="result-title" style="color:${titleColor}">${r.title}</div>
+      <div class="result-desc">${desc}</div>
+    </div>
+    ${formHTML}
+    <div style="text-align:center;margin-top:16px">
+      <button class="result-restart" onclick="restartDiag()">← 처음부터 다시 진단하기</button>
+    </div>
+  `;
+
+  const content = document.getElementById('diagContent');
+  content.style.opacity = '0';
+  content.style.transform = 'translateX(20px)';
+  setTimeout(() => {
+    content.innerHTML = html;
+    content.style.transition = 'opacity 0.3s, transform 0.3s';
+    content.style.opacity = '1';
+    content.style.transform = 'translateX(0)';
+  }, 150);
+}
+
+function restartDiag() {
+  resultKey = null;
+  const content = document.getElementById('diagContent');
+  content.style.transition = 'none';
+  content.style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('progressBar').style.width = '0%';
+    renderStep(STEPS[0]);
+  }, 100);
+}
+
+/* ══════════════════ 폼 렌더링 ══════════════════ */
+function renderDetailForm() {
+  return `
+  <div class="form-wrap" id="formArea">
+    <div class="form-title">📋 환급 대행 검토 요청</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="f-grid-2">
+        <div class="f-group">
+          <label class="f-label">회사명 <span class="req">*</span></label>
+          <input class="f-input" id="f_company" placeholder="사업체 상호명">
+        </div>
+        <div class="f-group">
+          <label class="f-label">담당자명 <span class="req">*</span></label>
+          <input class="f-input" id="f_name" placeholder="담당자 성함">
+        </div>
+        <div class="f-group">
+          <label class="f-label">연락처 <span class="req">*</span></label>
+          <input class="f-input" id="f_phone" placeholder="010-0000-0000">
+        </div>
+        <div class="f-group">
+          <label class="f-label">이메일</label>
+          <input class="f-input" id="f_email" placeholder="example@company.com">
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">수출 품목 (간략히)</label>
+        <input class="f-input" id="f_product" placeholder="예: 전자부품, 화장품, 의류 등">
+      </div>
+      <div class="f-grid-2">
+        <div class="f-group">
+          <label class="f-label">예상 환급 관세 규모</label>
+          <select class="f-select" id="f_amount">
+            <option value="">선택</option>
+            <option>1천만원 미만</option>
+            <option>1천만~5천만원</option>
+            <option>5천만~1억원</option>
+            <option>1억원 이상</option>
+            <option>모르겠음</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <label class="f-label">미국 내 법인 계좌 보유</label>
+          <select class="f-select" id="f_account">
+            <option value="">선택</option>
+            <option>있음</option>
+            <option>없음</option>
+            <option>모르겠음</option>
+          </select>
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">추가 문의사항</label>
+        <textarea class="f-textarea" id="f_memo" placeholder="궁금하신 사항이나 추가 정보를 자유롭게 입력해 주세요"></textarea>
+      </div>
+      <label class="f-consent">
+        <input type="checkbox" id="f_consent">
+        <span>개인정보 수집 및 이용에 동의합니다. 수집된 정보는 관세환급 검토 목적으로만 활용되며 검토 완료 후 파기됩니다. <span class="req">*</span></span>
+      </label>
+      <div class="submit-btn-wrap">
+        <button class="btn btn-pri btn-full" onclick="submitForm('환급대상')">검토 요청 접수하기</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderSimpleForm(formType) {
+  const titles = {
+    '환급불가':    '💬 세무 상담 문의',
+    '전문상담필요': '⚖️ 전문 상담 연결 신청',
+  };
+  const descs = {
+    '환급불가':    '이름과 연락처만 남겨주시면 담당자가 연락드립니다.',
+    '전문상담필요': '이름과 연락처를 남겨주시면 전문 상담을 안내해 드립니다.',
+  };
+  return `
+  <div class="form-wrap" id="formArea">
+    <div class="form-title">${titles[formType] || '문의하기'}</div>
+    <p style="font-size:13px;color:var(--ink3);margin-bottom:16px">${descs[formType] || ''}</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="f-group">
+        <label class="f-label">이름 <span class="req">*</span></label>
+        <input class="f-input" id="f_name" placeholder="성함을 입력해 주세요">
+      </div>
+      <div class="f-group">
+        <label class="f-label">연락처 <span class="req">*</span></label>
+        <input class="f-input" id="f_phone" placeholder="010-0000-0000">
+      </div>
+      <label class="f-consent">
+        <input type="checkbox" id="f_consent">
+        <span>개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
+      </label>
+      <div class="submit-btn-wrap">
+        <button class="btn btn-pri btn-full" onclick="submitForm('${formType}')">문의 접수하기</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════ 폼 제출 ══════════════════ */
+function submitForm(formType) {
+  const name    = document.getElementById('f_name')?.value.trim();
+  const phone   = document.getElementById('f_phone')?.value.trim();
+  const consent = document.getElementById('f_consent')?.checked;
+
+  if (!name)    { alert('이름을 입력해 주세요.'); return; }
+  if (!phone)   { alert('연락처를 입력해 주세요.'); return; }
+  if (!consent) { alert('개인정보 수집 동의가 필요합니다.'); return; }
+
+  const now = new Date();
+  const ts = now.getFullYear() + '-' +
+    String(now.getMonth()+1).padStart(2,'0') + '-' +
+    String(now.getDate()).padStart(2,'0') + ' ' +
+    String(now.getHours()).padStart(2,'0') + ':' +
+    String(now.getMinutes()).padStart(2,'0');
+
+  const payload = {
+    sheetTab:  formType,
+    submittedAt: ts,
+    name,
+    phone,
+    company:  document.getElementById('f_company')?.value.trim()  || '',
+    email:    document.getElementById('f_email')?.value.trim()    || '',
+    product:  document.getElementById('f_product')?.value.trim()  || '',
+    amount:   document.getElementById('f_amount')?.value          || '',
+    account:  document.getElementById('f_account')?.value         || '',
+    memo:     document.getElementById('f_memo')?.value.trim()     || '',
+  };
+
+  console.log('[ACRO 관세환급 제출]', JSON.stringify(payload, null, 2));
+
+  // GAS가 설정된 경우에만 실제 전송
+  if (GAS_URL && GAS_URL !== 'YOUR_GAS_WEBHOOK_URL_HERE') {
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: new URLSearchParams(payload),
+    }).catch(e => console.error('GAS 전송 오류:', e));
+  }
+
+  // 제출 완료 화면 표시
+  document.getElementById('formArea').innerHTML = `
+    <div class="success-box">
+      <div class="success-icon">✓</div>
+      <div class="success-title">접수가 완료되었습니다</div>
+      <div class="success-desc">
+        담당자가 확인 후 순차적으로 연락드립니다.<br>
+        처리 일정은 접수량에 따라 달라질 수 있습니다.
+      </div>
+    </div>
+  `;
+}
+
+/* ══════════════════ FAQ 데이터 ══════════════════ */
+const FAQS = [
+  {
+    q: '수수료는 얼마인가요?',
+    a: '수수료 구조는 환급 규모 및 신청 건수에 따라 개별적으로 안내드립니다. 자가진단 후 폼을 작성해 주시면 담당자가 맞춤형 안내를 드립니다.'
+  },
+  {
+    q: '미국 계좌가 없어도 환급을 받을 수 있나요?',
+    a: 'CBP(미국 세관)는 전자이체(ACH)로만 환급금을 지급합니다. 미국 계좌가 없는 경우 UPS 등 대리 수령인을 지정하는 방법이 있으나, 이 경우 이의신청(Protest) 경로가 더 적합할 수 있습니다. 담당자와 상담 후 결정하시길 권장드립니다.'
+  },
+  {
+    q: '아마존 FBA 셀러도 환급 신청이 가능한가요?',
+    a: '아마존 FBA의 경우 포워더나 아마존이 수입자(IOR)로 등재되는 경우가 많아 직접 청구권이 없는 경우가 있습니다. 자가진단을 통해 확인하시거나, 담당자에게 문의해 주시기 바랍니다.'
+  },
+  {
+    q: '신청 기한이 있나요?',
+    a: '관세 확정일(Liquidation Date)로부터 180일 이내에 신청해야 합니다. 기한이 지나면 환급 경로가 막힐 수 있으므로 가능한 빨리 진행하시길 권장드립니다. 2025년 4월 5일 이후 납부된 관세가 대상입니다.'
+  },
+  {
+    q: '환급을 받기까지 얼마나 걸리나요?',
+    a: 'CAPE 시스템 신청 후 60~90일 이내 처리를 예상할 수 있습니다. 단, 추가 검토가 필요한 건이나 CAPE 대상이 아닌 건은 더 오래 걸릴 수 있습니다.'
+  },
+];
+
+function renderFAQ() {
+  const container = document.getElementById('faqList');
+  container.innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item" id="faq_${i}">
+      <button class="faq-q" onclick="toggleFAQ(${i})">
+        <span>${f.q}</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">${f.a}</div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i) {
+  const item = document.getElementById('faq_' + i);
+  item.classList.toggle('open');
+}
+
+/* ══════════════════ 유틸 ══════════════════ */
+function scrollToDiag() {
+  document.getElementById('diag').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 페이드인 옵저버
+function initFadein() {
+  const els = document.querySelectorAll('.fadein');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+}
+
+// 초기화
+document.addEventListener('DOMContentLoaded', () => {
+  renderStep(STEPS[0]);
+  renderFAQ();
+  initFadein();
+});
+</script>
+
+<!-- ════ 관리자 참고 (배포 전 제거) ════
+  1. GAS_URL 상수를 실제 Google Apps Script Webhook URL로 교체하세요
+  2. GAS Apps Script 코드에서 sheetTab 필드를 기준으로 시트를 분기하세요:
+     - sheetTab = "환급대상"    → 상세 폼 데이터 (회사명, 연락처, 금액 등)
+     - sheetTab = "환급불가"    → 이름, 연락처만
+     - sheetTab = "전문상담필요" → 이름, 연락처만
+  3. Apps Script 예시:
+     function doPost(e) {
+       const ss = SpreadsheetApp.openById('YOUR_SHEET_ID');
+       const tab = e.parameter.sheetTab || '환급대상';
+       const sheet = ss.getSheetByName(tab) || ss.insertSheet(tab);
+       const keys = ['submittedAt','name','phone','company','email','product','amount','account','memo'];
+       sheet.appendRow(keys.map(k => e.parameter[k] || ''));
+       return ContentService.createTextOutput('ok');
+     }
+════ -->
+</body>
+</html>
