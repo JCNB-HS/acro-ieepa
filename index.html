@@ -86,10 +86,10 @@
   .logo-name { font-weight: 900; font-size: 16px; color: #fff; letter-spacing: 0.04em; }
   .logo-sep  { width: 1px; height: 14px; background: rgba(255,255,255,0.2); }
   .logo-sub  { font-size: 12px; color: rgba(255,255,255,0.5); }
-@media (max-width: 640px) {
-  .stat-item { min-width: 33%; padding: 8px 12px; }
-  .stat-num  { font-size: 22px; }
-}
+  @media (max-width: 480px) {
+    .logo-sep, .logo-sub { display: none; }
+    #header .btn { font-size: 12px; padding: 8px 12px; white-space: nowrap; }
+  }
 
   /* ── 히어로 ── */
   #hero {
@@ -127,15 +127,8 @@
   .stat-item { flex: 1; max-width: 240px; text-align: center; padding: 0 24px; position: relative; }
   .stat-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 15%; height: 70%; width: 1px; background: rgba(255,255,255,0.1); }
   .stat-num { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; }
-@media (max-width: 640px) {
-  .stat-num { font-size: 22px; }
-  .stat-num span { font-size: 13px; }
-}
   .stat-num span { font-size: 16px; font-weight: 700; color: #60a5fa; }
   .stat-lbl { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 5px; }
-@media (max-width: 640px) {
-  .stat-lbl { font-size: 11px; white-space: nowrap; }
-}
 
   /* ── 자가진단 섹션 ── */
   #diag { background: var(--bg); }
@@ -252,11 +245,19 @@
   @media (max-width: 640px) {
     .diag-body { padding: 28px 20px; }
     .f-grid-2 { grid-template-columns: 1fr; }
-    .stats-grid { flex-wrap: wrap; }
-    .stat-item { min-width: 120px; }
-    .stat-item:not(:last-child)::after { display: none; }
     .hero-btns .btn-xl { width: 100%; }
     .form-wrap { padding: 20px; }
+    .h-hero { font-size: 26px; }
+    .hero-lead br { display: none; }
+    .hero-lead { font-size: 15px; }
+    #hero { padding: 60px 0 52px; }
+    .stats-grid { flex-wrap: nowrap; }
+    .stat-item { flex: 1; min-width: 0; max-width: none; padding: 0 8px; }
+    .stat-item:not(:last-child)::after { display: block; }
+    .stat-num { font-size: 19px; }
+    .stat-num span { font-size: 11px; }
+    .stat-lbl { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; }
+    #stats { padding: 20px 0; }
   }
 
   /* ── 페이드인 ── */
@@ -283,12 +284,12 @@
   <div class="wrap" style="position:relative;z-index:1">
     <h1 class="h-hero hero-title">
       트럼프 상호관세,<br>
-      <em>납부한 관세를 돌려받을 수<br>있습니다</em>
+      <em>납부한 관세를 돌려받을 수 있습니다</em>
     </h1>
     <p class="lead hero-lead">
       미국 연방대법원의 IEEPA 위헌 판결로 인해,<br>
-      미국으로 수출 시 납부한 관세의 환급이<br>가능해졌습니다.<br>
-      <strong style="color:rgba(255,255,255,0.8)">신청 기한이 정해져 있습니다.<br>지금 바로 확인하세요.</strong>
+      미국으로 수출 시 납부한 관세의 환급이 가능해졌습니다.<br>
+      <strong style="color:rgba(255,255,255,0.8)">신청 기한이 정해져 있습니다. 지금 바로 확인하세요.</strong>
     </p>
     <div class="hero-btns">
       <button class="btn btn-pri btn-xl" onclick="scrollToDiag()">무료 환급 가능 여부 진단 →</button>
@@ -366,7 +367,7 @@
 <script>
 /* ══════════════════ 설정값 ══════════════════ */
 // 폼 제출 후 Google Sheets로 데이터를 보내는 GAS Webhook URL을 아래에 입력하세요
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwKtbiJIBVfNq_k_-E75DNSzWYlEBSvilLt88WnZSakgsdCH0ku442MDq5VhG4tyTOc/exec';
+const GAS_URL = 'YOUR_GAS_WEBHOOK_URL_HERE';
 
 /* ══════════════════ 진단 데이터 ══════════════════ */
 const STEPS = [
